@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "repl_nix_TsuHDF-Reborn"
+version = "0.1.0"
+description = ""
+authors = ["Replit user <<>>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiohttp = "^3.8.4"
+arrow = "^1.2.3"
+blockstack = "^22.0.0"
+geoip2 = "^4.6.0"
+oyaml = "^1.0"
+pytimeparse = "^1.1.8"
+PyYAML = "^6.0"
+websockets = "^11.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -17,7 +17,7 @@
 
 import asyncio
 import aiohttp
-import stun
+import http.client as httpc
 import time
 from threading import Thread
 
@@ -48,17 +48,16 @@ class MasterServerClient:
                     await asyncio.sleep(60)
 
     def get_my_ip(self):
-        for stun_ip, stun_port in stun_servers:
-            nat_type, external_ip, _external_port = \
-                stun.get_ip_info(stun_host=stun_ip, stun_port=stun_port)
-            if nat_type != stun.Blocked:
-                return external_ip
+      conn = httpc.HTTPConnection("ifconfig.me")
+      conn.request("GET", "/ip")
+      return str(conn.getresponse().read())
 
     async def send_server_info(self, http: aiohttp.ClientSession):
         loop = asyncio.get_event_loop()
         cfg = self.server.config
+        my_ip = await loop.run_in_executor(None, self.get_my_ip)
         body = {
-            'ip': await loop.run_in_executor(None, self.get_my_ip),
+            'ip': my_ip,
             'port': cfg['port'],
             'name': cfg['masterserver_name'],
             'description': cfg['masterserver_description'],
